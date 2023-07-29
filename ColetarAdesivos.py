@@ -61,11 +61,24 @@ for stk in stk_regulars:
         name = name.text
         name = name.replace('\n', '')
 
-        sticker_list.append(name)
+        rarity = sticker.find('p', attrs={'class': 'nomargin'})
+        rarity = rarity.text
+        rarity = rarity.replace('\n', '')
 
-print(sticker_list)
+        capsule = sticker.find('p', attrs={'class': 'nomargin item-resultbox-collection-container-info'})
+        capsule = capsule.text
+        capsule = capsule.replace('\n', '')
 
-# Loop para percorrer os links dos stickers regulares
+        sticker_list.append([name, rarity, capsule])
+
+#print(sticker_list)
+
+# Colocar em um dataframe e salvar em arquivo
+
+df_regular_sticker = pd.DataFrame(sticker_list, columns = ['name', 'rarity', 'capsule'])
+df_regular_sticker.to_excel('regulars_stickers.xlsx', index = False)
+
+# Loop para percorrer os links dos stickers de torneio
 
 sticker_list = []
 
@@ -93,14 +106,23 @@ for stk in stk_tournaments:
         name = name.text
         name = name.replace('\n', '')
 
-        tournament
+        tournament = sticker.find('h4')
+        tournament = tournament.text
+        tournament = tournament.replace('\n', '')
 
-        capsule
+        rarity = sticker.find('p', attrs={'class': 'nomargin'})
+        rarity = rarity.text
+        rarity = rarity.replace('\n', '')
 
-        sticker_list.append(name, tournament, capsule)
+        capsule = sticker.find('p', attrs={'class': 'nomargin item-resultbox-collection-container-info'})
+        capsule = capsule.text
+        capsule = capsule.replace('\n', '')
 
-print(sticker_list)
+        sticker_list.append([name, tournament, rarity, capsule])
 
+#print(sticker_list)
 
+# Colocar em um dataframe e salvar em arquivo
 
-
+df_tournament_sticker = pd.DataFrame(sticker_list, columns = ['name', 'tournament', 'rarity', 'capsule'])
+df_tournament_sticker.to_excel('tournament_stickers.xlsx', index = False)
