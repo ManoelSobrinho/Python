@@ -5,7 +5,7 @@ import openpyxl
 from bs4 import BeautifulSoup
 
 # Definir URL a ser lido
-url = "https://csgostash.com/stickers/regular"
+url = "https://csgostash.com/stickers/tournament/Paris+2023"
 #print(type(url))
 response = requests.get(url)
 #print(response.content)
@@ -61,12 +61,21 @@ sticker_list = []
 
 for sticker in stickers:
     link = str(sticker.find('a'))
-
     padrao = re.compile('<(.*?)>')
     achado = padrao.match(str(link))
     link = achado.group(1)
     link = link[8:-1]
 
+    url = link
+    response = requests.get(url)
+    content = response.content
+    site = BeautifulSoup(content, 'html.parser')
+'''
+    padrao = re.compile('<(.*?)>')
+    achado = padrao.match(str(link))
+    link = achado.group(1)
+    link = link[8:-1]
+'''
     name = sticker.find('div', attrs={'class': 'well result-box nomargin'})
     name = name.find('h3')
     name = name.text
